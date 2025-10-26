@@ -17,6 +17,7 @@ import {
   BookOpen,
   Target,
   Check,
+  Briefcase,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { ProgressCircle } from "@/components/ui/progress-circle";
@@ -149,6 +150,30 @@ const LearningResourcesSection = ({ resources = [] }) => (
   </Card>
 );
 
+const JobMatchPromptCard = () => (
+  <Card className="bg-gray-100 border-gray-200 w-full">
+    <CardHeader>
+      <CardTitle className="text-xl flex items-center gap-2">
+        <Briefcase className="w-5 h-5" /> Find Jobs Matching Your CV
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-gray-700 mb-4">
+        Would you like to view job listings that match your CV and skills?
+      </p>
+      <Button 
+        asChild 
+        className="w-full bg-black hover:bg-gray-800 text-white"
+      >
+        <Link href="/job-match">
+          <Briefcase className="w-4 h-4 mr-2" />
+          View Job Listings
+        </Link>
+      </Button>
+    </CardContent>
+  </Card>
+);
+
 export const CvResultsCard = ({ data }) => {
   // API response structure: { success: true, data: { analysis_results, suggested_learning_resources } }
   const apiData = data?.data || data;
@@ -209,6 +234,9 @@ export const CvResultsCard = ({ data }) => {
         <div className="space-y-6">
           <LearningResourcesSection resources={learningResources} />
         </div>
+      </div>
+      <div className="mt-6">
+        <JobMatchPromptCard />
       </div>
     </motion.div>
   );
