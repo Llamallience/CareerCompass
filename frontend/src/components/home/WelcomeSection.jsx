@@ -12,7 +12,7 @@ const WelcomeSection = ({ onStartClick }) => (
     transition={{ duration: 0.5, ease: "easeInOut" }}
     className="flex flex-col items-center text-center max-w-2xl"
   >
-    <Image src="/assets/images/logo.png" alt="logo" width={300} height={300} />
+    <Image src="/assets/images/logo1.png" alt="logo" width={400} height={400} />
     <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
       <TypeAnimation
         sequence={["Meet Your AI Career Coach", 1500]}

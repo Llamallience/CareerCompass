@@ -33,14 +33,14 @@ export function MinimalistNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-24 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <Image
-                src="/assets/images/logo.png"
+                src="/assets/images/logo2.png"
                 alt="AI Kariyer Koçu Logo"
-                width={96}
-                height={96}
+                width={200}
+                height={200}
               />
             </Link>
           </div>
