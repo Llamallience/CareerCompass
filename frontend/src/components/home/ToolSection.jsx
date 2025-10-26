@@ -49,7 +49,7 @@ const ToolSectionTitle = () => {
     <div className="text-center mb-12">
       <h1 className="text-4xl md:text-5xl font-bold mb-4 h-[1.2em]">
         <TypeAnimation
-          sequence={["Welcome to your AI Career Coach", 1500]}
+          sequence={["Welcome to CareerCompass", 1500]}
           wrapper="span"
           speed={30}
           repeat={3}
@@ -57,8 +57,8 @@ const ToolSectionTitle = () => {
         />
       </h1>
       <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-        Choose a method to find your way to your goal. LinkedIn analyse your
-        profile, CV or career paths you can discover.
+        Choose your path to career success. Analyze your CV, discover matching opportunities,
+        and explore career possibilities with AI-powered guidance.
       </p>
     </div>
   );

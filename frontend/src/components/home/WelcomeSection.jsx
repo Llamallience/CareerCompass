@@ -15,7 +15,7 @@ const WelcomeSection = ({ onStartClick }) => (
     <Image src="/assets/images/logo1.png" alt="logo" width={400} height={400} />
     <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
       <TypeAnimation
-        sequence={["Meet Your AI Career Coach", 1500]}
+        sequence={["Navigate Your Professional Journey", 1500]}
         wrapper="span"
         speed={30}
         repeat={3}
@@ -24,9 +24,8 @@ const WelcomeSection = ({ onStartClick }) => (
     </h1>
 
     <p className="text-lg md:text-xl text-muted-foreground mb-8">
-      Ready to take your career to the next level? Our AI Career Coach is here
-      to help you identify the skills you need and create a personalized roadmap
-      to your dream job.
+      Let CareerCompass guide you through your career path with AI-powered insights.
+      Discover perfect job matches, analyze opportunities, and chart your course to success.
     </p>
     <Button
       size="lg"
