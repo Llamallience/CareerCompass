@@ -103,6 +103,23 @@ const CvAnalysis = () => {
       }
       
       setData(result);
+      
+      // Save CV to localStorage for job-match page
+      if (cvFile) {
+        // Convert File object to base64
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const cvData = {
+            fileName: cvFile.name,
+            fileType: cvFile.type,
+            fileSize: cvFile.size,
+            fileData: reader.result,
+            timestamp: Date.now()
+          };
+          localStorage.setItem('uploadedCV', JSON.stringify(cvData));
+        };
+        reader.readAsDataURL(cvFile);
+      }
     } catch (err) {
       console.error("Error analyzing CV:", err);
       const errorMessage = err.response?.data?.error_message || 

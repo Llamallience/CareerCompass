@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -73,14 +74,16 @@ const ResourceCard = ({ resource }) => (
     className="group relative bg-card overflow-hidden hover:shadow-md transition-shadow duration-300"
   >
     <div className="flex gap-4 p-4 items-center">
-      <div className="aspect-square w-20 h-20 overflow-hidden">
-        <img
+      <div className="aspect-square w-20 h-20 overflow-hidden relative rounded-lg">
+        <Image
           src={
             resource?.image ||
             "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*OYUijA9Q8o_U243FEdwjUA.jpeg"
           }
-          alt=""
-          className="w-full h-full object-cover rounded-lg"
+          alt={resource?.title || "Resource image"}
+          fill
+          className="object-cover"
+          sizes="80px"
         />
       </div>
       <div className="flex-1 min-w-0">
@@ -150,29 +153,36 @@ const LearningResourcesSection = ({ resources = [] }) => (
   </Card>
 );
 
-const JobMatchPromptCard = () => (
-  <Card className="bg-gray-100 border-gray-200 w-full">
-    <CardHeader>
-      <CardTitle className="text-xl flex items-center gap-2">
-        <Briefcase className="w-5 h-5" /> Find Jobs Matching Your CV
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p className="text-sm text-gray-700 mb-4">
-        Would you like to view job listings that match your CV and skills?
-      </p>
-      <Button 
-        asChild 
-        className="w-full bg-black hover:bg-gray-800 text-white"
-      >
-        <Link href="/job-match">
-          <Briefcase className="w-4 h-4 mr-2" />
-          View Job Listings
-        </Link>
-      </Button>
-    </CardContent>
-  </Card>
-);
+const JobMatchPromptCard = () => {
+  const handleViewJobs = () => {
+    // Set flag before navigating to job-match page
+    localStorage.setItem('shouldAutoAnalyze', 'true');
+  };
+  
+  return (
+    <Card className="bg-gray-100 border-gray-200 w-full">
+      <CardHeader>
+        <CardTitle className="text-xl flex items-center gap-2">
+          <Briefcase className="w-5 h-5" /> Find Jobs Matching Your CV
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-gray-700 mb-4">
+          Would you like to view job listings that match your CV and skills?
+        </p>
+        <Button 
+          asChild 
+          className="w-full bg-black hover:bg-gray-800 text-white"
+        >
+          <Link href="/job-match" onClick={handleViewJobs}>
+            <Briefcase className="w-4 h-4 mr-2" />
+            View Job Listings
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
 
 export const CvResultsCard = ({ data }) => {
   // API response structure: { success: true, data: { analysis_results, suggested_learning_resources } }

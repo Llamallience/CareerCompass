@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CvUploadForm2 } from "@/components/job-match/CvUploadForm2";
 import { JobMatchResults } from "@/components/job-match/JobMatchResults";
@@ -86,6 +86,49 @@ const JobMatch = () => {
       setIsLoading(false);
     }
   };
+
+  // Load CV from localStorage and start auto-analysis
+  useEffect(() => {
+    const shouldAutoAnalyze = localStorage.getItem('shouldAutoAnalyze');
+    const cvDataStr = localStorage.getItem('uploadedCV');
+    
+    if (shouldAutoAnalyze === 'true' && cvDataStr) {
+      try {
+        const cvData = JSON.parse(cvDataStr);
+        
+        // Convert base64 to File object
+        const base64Data = cvData.fileData;
+        const byteString = atob(base64Data.split(',')[1]);
+        const mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
+        
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        
+        const blob = new Blob([ab], { type: mimeString });
+        const file = new File([blob], cvData.fileName, { type: cvData.fileType });
+        
+        // Clear the flag
+        localStorage.removeItem('shouldAutoAnalyze');
+        
+        // Start the analysis
+        handleAnalyze(file);
+        
+        toast({
+          title: "CV Loaded",
+          description: "Starting job search with your CV...",
+          variant: "success"
+        });
+      } catch (error) {
+        console.error('Error loading CV from storage:', error);
+        localStorage.removeItem('shouldAutoAnalyze');
+        localStorage.removeItem('uploadedCV');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleBack = () => {
     setAnalysisData(null);
