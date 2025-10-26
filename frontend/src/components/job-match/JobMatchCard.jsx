@@ -1,17 +1,29 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ProgressCircle } from "@/components/ui/progress-circle";
-import { Building2, MapPin, Wallet, CheckCircle2, ExternalLink } from "lucide-react";
+import {
+  Building2,
+  MapPin,
+  Wallet,
+  CheckCircle2,
+  ExternalLink,
+} from "lucide-react";
 
 export const JobMatchCard = ({ job, index }) => {
   const jobLink = job.job_link || job.jobLink || job.jobUrl;
-  
+
   const handleViewDetails = () => {
-    if (jobLink && jobLink !== '#') {
-      window.open(jobLink, '_blank', 'noopener,noreferrer');
+    if (jobLink && jobLink !== "#") {
+      window.open(jobLink, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -47,7 +59,11 @@ export const JobMatchCard = ({ job, index }) => {
               </CardDescription>
             </div>
 
-            <ProgressCircle percentage={job.matchPercentage} size={90} strokeWidth={9} />
+            <ProgressCircle
+              percentage={job.matchPercentage}
+              size={90}
+              strokeWidth={9}
+            />
           </div>
         </CardHeader>
 
@@ -58,12 +74,16 @@ export const JobMatchCard = ({ job, index }) => {
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
                   <h4 className="text-sm font-semibold">
-                    Aranan Beceriler ({job.matchingSkills.length})
+                    Skills Required({job.matchingSkills.length})
                   </h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {job.matchingSkills.map((skill, idx) => (
-                    <Badge key={`${skill}-${idx}`} variant="default" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    <Badge
+                      key={`${skill}-${idx}`}
+                      variant="default"
+                      className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                    >
                       {skill}
                     </Badge>
                   ))}
@@ -74,18 +94,20 @@ export const JobMatchCard = ({ job, index }) => {
 
           {job.description && (
             <div className="pt-3 border-t">
-              <p className="text-sm text-muted-foreground line-clamp-3">{job.description}</p>
+              <p className="text-sm text-muted-foreground line-clamp-3">
+                {job.description}
+              </p>
             </div>
           )}
 
-          {jobLink && jobLink !== '#' && (
+          {jobLink && jobLink !== "#" && (
             <div className="flex pt-2 mt-auto">
-              <Button 
-                className="flex-1 cursor-pointer" 
+              <Button
+                className="flex-1 cursor-pointer"
                 variant="default"
                 onClick={handleViewDetails}
               >
-                İş İlanını Görüntüle
+                View Job Posting
                 <ExternalLink className="w-4 h-4 ml-2" />
               </Button>
             </div>

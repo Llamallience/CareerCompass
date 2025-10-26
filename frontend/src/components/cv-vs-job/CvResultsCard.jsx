@@ -19,9 +19,22 @@ import {
   Target,
   Check,
   Briefcase,
+  Star,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { ProgressCircle } from "@/components/ui/progress-circle";
+
+const COURSE_IMAGES = [
+  "/assets/images/courseImgs/codecademy.png",
+  "/assets/images/courseImgs/datacamp.webp",
+  "/assets/images/courseImgs/coursera.png",
+  "/assets/images/courseImgs/codecademy.png",
+  "/assets/images/courseImgs/coursera.png",
+];
+
+const isDataCampCourse = (imageUrl) => {
+  return imageUrl?.toLowerCase().includes("datacamp");
+};
 
 const MatchScoreSection = ({ matchScore, targetRole }) => (
   <div className="flex flex-col items-center justify-center p-6 bg-linear-to-br from-primary/5 to-primary/10 rounded-xl border">
@@ -67,98 +80,141 @@ const SkillsList = ({
   </div>
 );
 
-const ResourceCard = ({ resource }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    className="group relative bg-card overflow-hidden hover:shadow-md transition-shadow duration-300"
-  >
-    <div className="flex gap-4 p-4 items-center">
-      <div className="aspect-square w-20 h-20 overflow-hidden relative rounded-lg">
-        <Image
-          src={
-            resource?.image ||
-            "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*OYUijA9Q8o_U243FEdwjUA.jpeg"
-          }
-          alt={resource?.title || "Resource image"}
-          fill
-          className="object-cover"
-          sizes="80px"
-        />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h4 className="font-semibold text-sm line-clamp-2 group-hover:text-primary transition-colors">
-            {resource?.title || "Untitled Resource"}
-          </h4>
-          <Badge variant="secondary" className="shrink-0 text-xs mt-0.5">
-            {resource?.category || "General"}
-          </Badge>
-        </div>
-        <div className="flex items-center gap-2 mb-2 flex-wrap">
-          {resource?.tags?.map((tag, index) => (
-            <Badge
-              key={`${tag}-${index}`}
-              variant="outline"
-              className="text-xs"
-            >
-              <Target className="w-3 h-3 mr-1" />
-              {tag}
-            </Badge>
-          ))}
-        </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-full justify-start text-xs h-8 px-2"
-          asChild
-        >
-          <Link
-            href={resource?.link || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <ExternalLink className="w-3 h-3 mr-2" /> Start Learning
-          </Link>
-        </Button>
-      </div>
-    </div>
-  </motion.div>
-);
+const ResourceCard = ({ resource, index }) => {
+  const displayImage =
+    resource?.image || COURSE_IMAGES[index % COURSE_IMAGES.length];
 
-const LearningResourcesSection = ({ resources = [] }) => (
-  <Card className="lg:sticky lg:top-4">
-    <CardHeader>
-      <CardTitle className="text-2xl flex items-center gap-2">
-        <Target className="w-6 h-6 text-primary" /> Suggested Learning Resources
-      </CardTitle>
-      <CardDescription>
-        Curated materials to fill your skill gaps
-      </CardDescription>
-    </CardHeader>
-    <CardContent>
-      <div className="space-y-4 max-h-[calc(100vh-16rem)] overflow-y-auto pr-2 -mr-2 scrollbar-thin">
-        {resources.length > 0 ? (
-          resources.map((resource, index) => (
-            <ResourceCard key={`resource-${index}`} resource={resource} />
-          ))
-        ) : (
-          <div className="text-center py-8 text-muted-foreground">
-            <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p>No specific resources suggested based on this analysis.</p>
+  const isSponsored = isDataCampCourse(displayImage);
+  const displayBadge =
+    resource?.badge ||
+    (isSponsored
+      ? { text: "Sponsored", variant: "secondary", icon: Star }
+      : null);
+  const BadgeIcon = displayBadge?.icon;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`group relative bg-card overflow-hidden transition-all duration-300 rounded-lg border ${
+        isSponsored
+          ? "border-transparent hover:border-[#03EF62]"
+          : "border-transparent hover:border-gray-200"
+      } hover:shadow-lg`}
+    >
+      {isSponsored && (
+        <div className="absolute top-0 left-0 w-20 h-20 overflow-hidden z-10 pointer-events-none">
+          <div className="absolute w-[150%] h-5 bg-linear-to-r from-[#03EF62] to-[#05D858] transform -rotate-45 left-[-25%] top-[25%] flex items-center justify-center text-white font-semibold text-[9px] tracking-wide uppercase shadow-md">
+            Sponsored
           </div>
-        )}
+        </div>
+      )}
+
+      <div className="flex gap-4 p-4 items-center">
+        <div className="aspect-square w-20 h-20 overflow-hidden relative rounded-lg shrink-0">
+          <Image
+            src={displayImage}
+            alt={resource?.title || "Resource image"}
+            fill
+            className="object-cover"
+            sizes="80px"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <h4 className="font-semibold text-sm line-clamp-2 group-hover:text-primary transition-colors">
+              {resource?.title || "Untitled Resource"}
+            </h4>
+            <Badge variant="secondary" className="shrink-0 text-xs mt-0.5">
+              {resource?.category || "General"}
+            </Badge>
+          </div>
+
+          {/* Special Badge (Sponsored for DataCamp) */}
+          {displayBadge && (
+            <div className="mb-2">
+              <Badge
+                variant={displayBadge.variant || "default"}
+                className="text-xs font-medium"
+              >
+                {BadgeIcon && <BadgeIcon className="w-3 h-3 mr-1" />}
+                {displayBadge.text}
+              </Badge>
+            </div>
+          )}
+
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
+            {resource?.tags?.map((tag, tagIndex) => (
+              <Badge
+                key={`${tag}-${tagIndex}`}
+                variant="outline"
+                className="text-xs"
+              >
+                <Target className="w-3 h-3 mr-1" />
+                {tag}
+              </Badge>
+            ))}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start text-xs h-8 px-2"
+            asChild
+          >
+            <Link
+              href={resource?.link || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLink className="w-3 h-3 mr-2" /> Start Learning
+            </Link>
+          </Button>
+        </div>
       </div>
-    </CardContent>
-  </Card>
-);
+    </motion.div>
+  );
+};
+
+const LearningResourcesSection = ({ resources = [] }) => {
+  return (
+    <Card className="lg:sticky lg:top-4">
+      <CardHeader>
+        <CardTitle className="text-2xl flex items-center gap-2">
+          <Target className="w-6 h-6 text-primary" /> Suggested Learning
+          Resources
+        </CardTitle>
+        <CardDescription>
+          Curated materials to fill your skill gaps
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4 max-h-[calc(100vh-16rem)] overflow-y-auto pr-2 -mr-2 scrollbar-thin">
+          {resources.length > 0 ? (
+            resources.map((resource, index) => (
+              <ResourceCard
+                key={`resource-${index}`}
+                resource={resource}
+                index={index}
+              />
+            ))
+          ) : (
+            <div className="text-center py-8 text-muted-foreground">
+              <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-50" />
+              <p>No specific resources suggested based on this analysis.</p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 const JobMatchPromptCard = () => {
   const handleViewJobs = () => {
     // Set flag before navigating to job-match page
-    localStorage.setItem('shouldAutoAnalyze', 'true');
+    localStorage.setItem("shouldAutoAnalyze", "true");
   };
-  
+
   return (
     <Card className="bg-gray-100 border-gray-200 w-full">
       <CardHeader>
@@ -170,8 +226,8 @@ const JobMatchPromptCard = () => {
         <p className="text-sm text-gray-700 mb-4">
           Would you like to view job listings that match your CV and skills?
         </p>
-        <Button 
-          asChild 
+        <Button
+          asChild
           className="w-full bg-black hover:bg-gray-800 text-white"
         >
           <Link href="/job-match" onClick={handleViewJobs}>
