@@ -1,7 +1,7 @@
 # CareerCompass 🧭
 
 <div align="center">
-  <img src="./frontend/public/assets/images/logo.png" alt="CareerCompass Logo" width="1200"/>
+  <img src="./frontend/public/assets/images/careercompass.png" alt="CareerCompass Logo" width="1200"/>
   
   ### Navigate Your Professional Journey
   
