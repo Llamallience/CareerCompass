@@ -4,12 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ProgressCircle } from "@/components/ui/progress-circle";
-import { Building2, MapPin, Wallet, CheckCircle2, XCircle, ExternalLink } from "lucide-react";
+import { Building2, MapPin, Wallet, CheckCircle2, ExternalLink } from "lucide-react";
 
 export const JobMatchCard = ({ job, index }) => {
+  const jobLink = job.job_link || job.jobLink || job.jobUrl;
+  
   const handleViewDetails = () => {
-    if (job.job_link) {
-      window.open(job.job_link, '_blank', 'noopener,noreferrer');
+    if (jobLink && jobLink !== '#') {
+      window.open(jobLink, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -56,28 +58,12 @@ export const JobMatchCard = ({ job, index }) => {
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
                   <h4 className="text-sm font-semibold">
-                    Your Matching Skills ({job.matchingSkills.length})
+                    Aranan Beceriler ({job.matchingSkills.length})
                   </h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {job.matchingSkills.map((skill) => (
-                    <Badge key={skill} variant="default" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {job.missingSkills && job.missingSkills.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <XCircle className="w-4 h-4 text-orange-600" />
-                  <h4 className="text-sm font-semibold">Skills to Develop ({job.missingSkills.length})</h4>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {job.missingSkills.map((skill) => (
-                    <Badge key={skill} variant="destructive" className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                  {job.matchingSkills.map((skill, idx) => (
+                    <Badge key={`${skill}-${idx}`} variant="default" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                       {skill}
                     </Badge>
                   ))}
@@ -92,14 +78,14 @@ export const JobMatchCard = ({ job, index }) => {
             </div>
           )}
 
-          {job.job_link && (
+          {jobLink && jobLink !== '#' && (
             <div className="flex pt-2 mt-auto">
               <Button 
                 className="flex-1 cursor-pointer" 
                 variant="default"
                 onClick={handleViewDetails}
               >
-                View Details
+                İş İlanını Görüntüle
                 <ExternalLink className="w-4 h-4 ml-2" />
               </Button>
             </div>

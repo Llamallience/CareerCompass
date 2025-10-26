@@ -40,18 +40,15 @@ export const JobSearchDashboard = () => {
         const metadata = entry.metadata || {};
         const score = metadata.score || 0;
         
-        let allSkills = [];
+        // Job skills'i düzgün parse et
+        let jobSkills = [];
         if (fields.job_skills) {
           if (Array.isArray(fields.job_skills)) {
-            allSkills = fields.job_skills;
+            jobSkills = fields.job_skills;
           } else if (typeof fields.job_skills === "string") {
-            allSkills = fields.job_skills.split(",").map((s) => s.trim());
+            jobSkills = fields.job_skills.split(",").map((s) => s.trim()).filter(Boolean);
           }
         }
-        
-        const matchingSkillsCount = Math.floor(allSkills.length * score);
-        const matchingSkills = allSkills.slice(0, matchingSkillsCount);
-        const missingSkills = allSkills.slice(matchingSkillsCount);
 
         return {
           id: entry.id || Math.random().toString(),
@@ -62,11 +59,12 @@ export const JobSearchDashboard = () => {
           matchPercentage: Math.round(score * 100),
           jobType: fields.job_type || "Unknown",
           jobLevel: fields.job_level || "Unknown",
-          matchingSkills,
-          missingSkills,
-          description: fields.job_description || "No description available",
+          // İlk 10 skill'i matchingSkills olarak göster
+          matchingSkills: jobSkills.slice(0, 10),
+          missingSkills: [], // Backend'den gelirse buraya eklenebilir
+          description: fields.job_description || fields.job_summary || "No description available",
           jobCategory: fields.job_category || null,
-          job_link: fields.job_link || null,
+          job_link: fields.job_link || fields.jobUrl || fields.job_url || null,
         };
       });
 

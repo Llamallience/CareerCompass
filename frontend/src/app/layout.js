@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ThemeProvider } from "@/components/theme-provider";
 import { ToastProvider } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import "./globals.css";
@@ -23,17 +22,12 @@ export default function RootLayout({ children }) {
     <html lang="tr" suppressHydrationWarning>
       <head />
       <body className={cn("min-h-screen bg-background")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ToastProvider>
-            {shouldShowNavbar && <MinimalistNavbar />}
-            {children}
-          </ToastProvider>
-        </ThemeProvider>
+
+        <ToastProvider>
+          {shouldShowNavbar && <MinimalistNavbar />}
+          {children}
+        </ToastProvider>
+
       </body>
     </html>
   );

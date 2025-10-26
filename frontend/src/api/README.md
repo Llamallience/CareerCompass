@@ -6,9 +6,11 @@ This directory contains all API-related functionality for the application.
 
 ```
 api/
-├── apiService.js    # Main API service with axios configuration
-├── mockData.json    # Mock data for all endpoints
-└── README.md        # This file
+├── apiClient.js              # Axios configuration
+├── cvAnalysisService.js      # CV Analysis API
+├── superlinkedService.js     # Superlinked Job Search API
+├── index.js                  # Service exports
+└── README.md                 # This file
 ```
 
 ## Configuration
@@ -18,38 +20,38 @@ api/
 Create a `.env.local` file in the root directory:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_USE_MOCK=true
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
 
 - `NEXT_PUBLIC_API_BASE_URL`: The base URL for your API
-- `NEXT_PUBLIC_USE_MOCK`: Set to `true` to use mock data, `false` to use real API
 
 ## API Endpoints
 
-### 1. Job Search API
+### 1. CV Analysis API
 
-**Endpoint:** `POST /api/job-search`
+**Endpoint:** `POST /analyze_linkedin`
 
-**Request:**
+**Request (FormData):**
 
-```javascript
-{
-  query: "Data Scientist jobs in Australia with Machine Learning skills";
-}
-```
+- `cv_file`: File (PDF)
+- `linkedin_url`: string (optional)
 
 **Response:**
 
 ```javascript
 {
-  targetJob: "AI/ML Engineer",
-  missingSkills: ["Python", "NumPy", "Pandas", ...],
-  avoidPath: "Important warnings and tips",
-  roadmap: [
+  analysis_results: {
+    match_score: { value: 85, unit: "percent" },
+    target_role: "Senior Frontend Developer",
+    strong_skills: ["React", "Next.js", "TailwindCSS", ...],
+    skills_to_develop: ["GraphQL", "AWS Deployment", ...]
+  },
+  suggested_learning_resources: [
     {
-      step: "Step 1: ...",
-      description: "..."
+      title: "GraphQL Full Course",
+      category: "Course",
+      tags: ["GraphQL"],
+      link: "https://..."
     }
   ]
 }
@@ -58,111 +60,96 @@ NEXT_PUBLIC_USE_MOCK=true
 **Usage:**
 
 ```javascript
-import { searchJobs } from "@/api/apiService";
+import { analyzeCv } from '@/api';
 
-const results = await searchJobs("AI/ML Engineer");
+const results = await analyzeCv(file, linkedinUrl);
 ```
 
 ---
 
-### 2. CV Analysis API
+### 2. Superlinked Job Search API
 
-**Endpoint:** `POST /api/cv-analysis`
+**Endpoint:** `POST /api/superlinked/search`
 
-**Request (FormData):**
+**Request:**
 
-- `cvFile`: File (PDF)
-- `linkedinUrl`: string (optional)
-- `targetJobTitle`: string (optional)
+```javascript
+{
+  natural_query: "Python developer jobs in remote locations"
+}
+```
 
 **Response:**
 
 ```javascript
 {
-  matchPercentage: 85,
-  jobTitle: "Senior Frontend Developer",
-  missingSkills: ["GraphQL", "AWS Deployment"],
-  strongSkills: ["React", "Next.js", "TailwindCSS"],
-  suggestedResources: [
+  entries: [
     {
-      skill: "GraphQL",
-      resourceName: "GraphQL Full Course",
-      resourceUrl: "https://...",
-      type: "Course"
+      id: "job-1",
+      fields: {
+        job_title: "Senior Python Developer",
+        company: "TechCorp",
+        job_location: "Remote",
+        job_link: "https://...",
+        job_skills: ["Python", "Django", ...],
+        salary: "$120k - $160k"
+      },
+      metadata: {
+        score: 0.92
+      }
     }
-  ],
-  recommendations: ["Add GraphQL experience...", ...]
+  ]
 }
 ```
 
 **Usage:**
 
 ```javascript
-import { analyzeCv } from '@/api/apiService';
+import { searchJobsSuperlinked } from '@/api';
 
-const file = // File object from input
-const results = await analyzeCv(file, linkedinUrl, targetJobTitle);
+const results = await searchJobsSuperlinked("Python developer");
 ```
 
 ---
 
-### 3. Career Paths API
+### 3. CV-Based Job Search API
 
-**Endpoint:** `GET /api/career-paths`
+**Endpoint:** `POST /api/superlinked/search/job`
+
+**Request (FormData):**
+
+- `cv_file`: File (PDF)
 
 **Response:**
 
 ```javascript
-[
-  {
-    id: "frontend-developer",
-    title: "Frontend Developer",
-    description: "Build user interfaces...",
-    averageSalary: { min: 60000, max: 120000, currency: "USD" },
-    requiredSkills: ["HTML/CSS", "JavaScript", ...],
-    optionalSkills: ["TypeScript", ...],
-    learningPath: ["HTML/CSS fundamentals", ...]
-  }
-]
+{
+  entries: [
+    {
+      id: "job-1",
+      fields: {
+        job_title: "Senior Python Developer",
+        company: "TechCorp",
+        job_location: "Remote",
+        job_link: "https://...",
+        job_skills: ["Python", "Django", ...],
+        salary: "$120k - $160k"
+      },
+      metadata: {
+        score: 0.92
+      }
+    }
+  ]
+}
 ```
 
 **Usage:**
 
 ```javascript
-import { getCareerPaths } from "@/api/apiService";
+import { searchJobsByCvSuperlinked } from '@/api';
 
-const careers = await getCareerPaths();
+const results = await searchJobsByCvSuperlinked(cvFile);
 ```
-
----
-
-### 4. Career Path Details API
-
-**Endpoint:** `GET /api/career-paths/:id`
-
-**Usage:**
-
-```javascript
-import { getCareerPathById } from "@/api/apiService";
-
-const career = await getCareerPathById("frontend-developer");
-```
-
-## Mock Data vs Real API
-
-The service automatically switches between mock data and real API based on the `NEXT_PUBLIC_USE_MOCK` environment variable.
-
-### Development Mode (Mock Data)
-
-- Simulates API delays (1-2 seconds)
-- Returns consistent mock responses
-- No backend required
-
-### Production Mode (Real API)
-
-- Connects to actual backend
-- Handles authentication tokens
-- Full error handling
 
 ## Error Handling
 
@@ -170,7 +157,7 @@ All API functions include try-catch blocks and return promises. Handle errors in
 
 ```javascript
 try {
-  const results = await searchJobs(query);
+  const results = await searchJobsSuperlinked(query);
   setData(results);
 } catch (error) {
   console.error("Error:", error);
@@ -182,31 +169,17 @@ try {
 
 The API client includes:
 
-- Request interceptors for auth tokens
+- Base URL configuration from environment variables
 - Response interceptors for global error handling
 - 30-second timeout
 - Automatic JSON content-type headers
 
-## Next Steps
+## Backend Connection
 
-When ready to connect to your real backend:
+Make sure your backend API is running and accessible at the URL specified in `.env.local`:
 
-1. Update `.env.local`:
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+```
 
-   ```env
-   NEXT_PUBLIC_USE_MOCK=false
-   NEXT_PUBLIC_API_BASE_URL=https://your-api-domain.com
-   ```
-
-2. Implement authentication if needed in `apiService.js`:
-
-   ```javascript
-   const token = localStorage.getItem("token");
-   if (token) {
-     config.headers.Authorization = `Bearer ${token}`;
-   }
-   ```
-
-3. Test each endpoint individually
-
-4. Update mock data structure if API response format differs
+Test each endpoint individually to ensure proper connectivity.

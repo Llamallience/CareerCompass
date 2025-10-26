@@ -1,7 +1,4 @@
 import apiClient from "./apiClient";
-import mockData from "./mockData.json";
-
-const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
 /**
  * CV Analysis API
@@ -15,11 +12,6 @@ export const analyzeCv = async (
   linkedinUrl = "",
   targetJobTitle = ""
 ) => {
-  if (USE_MOCK_DATA) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    return mockData.cvAnalysis.responseExample;
-  }
-
   try {
     const formData = new FormData();
 

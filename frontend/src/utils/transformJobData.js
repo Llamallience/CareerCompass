@@ -1,6 +1,6 @@
 export const transformJobData = (apiResponse) => {
   if (!apiResponse?.entries || !Array.isArray(apiResponse.entries)) {
-    console.error("Invalid API response structure");
+    console.error("Invalid API response structure:", apiResponse);
     return { jobs: [], overallSummary: null };
   }
 
@@ -8,9 +8,15 @@ export const transformJobData = (apiResponse) => {
     const fields = entry.fields || {};
     const metadata = entry.metadata || {};
     
+    // Score'u 0-100 arasına dönüştür
     const matchPercentage = metadata.score 
       ? Math.round(metadata.score * 100) 
       : 0;
+
+    // Job skills - API'den gelen tüm beceriler
+    const jobSkills = Array.isArray(fields.job_skills) 
+      ? fields.job_skills 
+      : [];
 
     return {
       id: entry.id || index,
@@ -20,14 +26,18 @@ export const transformJobData = (apiResponse) => {
       salary: fields.salary || "Not Specified",
       matchPercentage,
       description: fields.job_summary 
-        ? fields.job_summary.substring(0, 300) + "..." 
+        ? fields.job_summary.length > 300 
+          ? fields.job_summary.substring(0, 300) + "..." 
+          : fields.job_summary
         : "No description available",
-      matchingSkills: fields.job_skills?.slice(0, 6) || [],
-      missingSkills: fields.job_skills?.slice(6, 9) || [],
+      // Tüm becerileri matchingSkills olarak göster (score'a göre eşleşme var)
+      matchingSkills: jobSkills.slice(0, 10), // İlk 10 beceri
+      missingSkills: [], // Backend'den gelirse buraya eklenebilir
       jobType: fields.job_type || "Full-time",
       jobLevel: fields.job_level || "Not Specified",
       jobCategory: fields.job_category || "General",
-      jobLink: fields.job_link || "#",
+      // Birden fazla link formatını destekle
+      jobLink: fields.job_link || fields.jobUrl || fields.job_url || null,
     };
   });
 
@@ -35,9 +45,12 @@ export const transformJobData = (apiResponse) => {
     ? Math.round(jobs.reduce((acc, job) => acc + job.matchPercentage, 0) / jobs.length)
     : 0;
 
+  // En çok talep edilen becerileri hesapla
   const allSkills = jobs.flatMap(job => job.matchingSkills);
   const skillCounts = allSkills.reduce((acc, skill) => {
-    acc[skill] = (acc[skill] || 0) + 1;
+    if (skill) { // Boş string kontrolü
+      acc[skill] = (acc[skill] || 0) + 1;
+    }
     return acc;
   }, {});
   
@@ -47,11 +60,15 @@ export const transformJobData = (apiResponse) => {
     .map(([skill]) => skill);
 
   const overallSummary = {
-    message: `Found ${jobs.length} job matches with an average match score of ${avgMatch}%. These positions align well with your skills and experience.`,
+    message: `${jobs.length} iş ilanı bulundu, ortalama eşleşme skoru %${avgMatch}. Bu pozisyonlar becerileriniz ve deneyiminizle uyumlu.`,
     topSkillsInDemand: topSkills,
   };
 
-  console.log("✅ Transformed data:", { jobCount: jobs.length, avgMatch });
+  console.log("✅ Transformed data:", { 
+    jobCount: jobs.length, 
+    avgMatch,
+    sampleJob: jobs[0] // İlk işi logla, debug için
+  });
 
   return { jobs, overallSummary };
 };
