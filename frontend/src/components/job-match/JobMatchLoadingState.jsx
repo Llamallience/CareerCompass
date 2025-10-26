@@ -1,7 +1,26 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const loadingMessages = [
+  { title: "Analyzing Your CV...", subtitle: "Finding the best job matches for you" },
+  { title: "Searching Job Database...", subtitle: "Scanning thousands of opportunities..." },
+  { title: "Matching Your Skills...", subtitle: "Finding positions that fit your profile..." },
+  { title: "Ranking Results...", subtitle: "Prioritizing the best matches..." },
+];
 
 export const JobMatchLoadingState = () => {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+    }, 3000); // Change message every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentMessage = loadingMessages[currentMessageIndex];
+
   return (
     <motion.div
       key="loader-job-match"
@@ -30,10 +49,21 @@ export const JobMatchLoadingState = () => {
         <div className="spoke" />
       </div>
 
-      <h3 className="text-xl font-semibold mb-2 mt-8">Analyzing Your CV...</h3>
-      <p className="text-muted-foreground">
-        Finding the best job matches for you
-      </p>
+      <div className="mt-8 h-20 flex flex-col items-center justify-center">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentMessageIndex}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
+          >
+            <h3 className="text-xl font-semibold mb-2">{currentMessage.title}</h3>
+            <p className="text-muted-foreground">{currentMessage.subtitle}</p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <style jsx>{`
         .wheel-and-hamster {
