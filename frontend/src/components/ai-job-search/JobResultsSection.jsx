@@ -1,12 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { JobMatchCard } from "@/components/job-match/JobMatchCard";
 import { JobFilterBar } from "@/components/job-match/JobFilterBar";
 import { Button } from "@/components/ui/button";
-import { SortAsc, Briefcase, Search } from "lucide-react";
+import { Briefcase, Search } from "lucide-react";
 
 export const JobResultsSection = ({ allJobs, filters, onFiltersChange }) => {
-  const [sortBy, setSortBy] = useState("match");
 
   const filteredJobs = useMemo(() => {
     let jobs = [...allJobs];
@@ -33,11 +32,8 @@ export const JobResultsSection = ({ allJobs, filters, onFiltersChange }) => {
   }, [allJobs, filters]);
 
   const sortedJobs = useMemo(() => {
-    return [...filteredJobs].sort((a, b) => {
-      if (sortBy === "match") return b.matchPercentage - a.matchPercentage;
-      return 0;
-    });
-  }, [filteredJobs, sortBy]);
+    return [...filteredJobs].sort((a, b) => b.matchPercentage - a.matchPercentage);
+  }, [filteredJobs]);
 
   const averageMatch = filteredJobs.length > 0
     ? filteredJobs.reduce((acc, job) => acc + job.matchPercentage, 0) / filteredJobs.length
@@ -84,21 +80,6 @@ export const JobResultsSection = ({ allJobs, filters, onFiltersChange }) => {
 
         <JobFilterBar onFiltersChange={onFiltersChange} jobsData={allJobs} />
 
-        <div className="flex items-center justify-between gap-3 mb-6">
-          <div className="flex items-center gap-2">
-            <SortAsc className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-medium">Sort:</span>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-1 text-sm border border-input bg-background rounded-md cursor-pointer"
-            >
-              <option value="match">Best Match</option>
-              <option value="salary">Highest Salary</option>
-              <option value="recent">Most Recent</option>
-            </select>
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">

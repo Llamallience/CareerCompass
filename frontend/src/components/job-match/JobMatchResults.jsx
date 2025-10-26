@@ -5,10 +5,9 @@ import { JobFilterBar } from "./JobFilterBar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressCircle } from "@/components/ui/progress-circle";
-import { ArrowLeft, SortAsc, Briefcase } from "lucide-react";
+import { ArrowLeft, Briefcase } from "lucide-react";
 
 export const JobMatchResults = ({ data, onBack }) => {
-  const [sortBy, setSortBy] = useState("match");
   const [filters, setFilters] = useState({
     locations: [],
     jobTypes: [],
@@ -36,10 +35,7 @@ export const JobMatchResults = ({ data, onBack }) => {
     return true;
   });
 
-  const sortedJobs = [...filteredJobs].sort((a, b) => {
-    if (sortBy === "match") return b.matchPercentage - a.matchPercentage;
-    return 0;
-  });
+  const sortedJobs = [...filteredJobs].sort((a, b) => b.matchPercentage - a.matchPercentage);
 
   const averageMatch = filteredJobs.length > 0
     ? filteredJobs.reduce((acc, job) => acc + job.matchPercentage, 0) / filteredJobs.length
@@ -76,17 +72,6 @@ export const JobMatchResults = ({ data, onBack }) => {
 
         <JobFilterBar onFiltersChange={handleFiltersChange} jobsData={data.jobs} />
 
-        <div className="flex items-center justify-between gap-3 mb-6">
-          <div className="flex items-center gap-2">
-            <SortAsc className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-medium">Sort:</span>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-1 text-sm border border-input bg-background rounded-md">
-              <option value="match">Best Match</option>
-              <option value="salary">Highest Salary</option>
-              <option value="recent">Most Recent</option>
-            </select>
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
