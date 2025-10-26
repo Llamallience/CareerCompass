@@ -1,0 +1,253 @@
+{
+  "jobSearch": {
+    "endpoint": "/api/job-search",
+    "method": "POST",
+    "requestBody": {
+      "query": "string"
+    },
+    "responseExample": {
+      "targetJob": "AI/ML Engineer",
+      "missingSkills": [
+        "Python",
+        "NumPy",
+        "Pandas",
+        "Scikit-learn",
+        "TensorFlow / PyTorch",
+        "Linear Algebra",
+        "Calculus",
+        "Statistics and Probability"
+      ],
+      "avoidPath": "Don't think AI is just about calling APIs! Without foundational mathematics (Linear Algebra, Calculus) and statistics knowledge, you cannot become an 'engineer' in this field. Avoid memorization, focus on mathematics.",
+      "roadmap": [
+        {
+          "step": "Step 1: Python and Data Science Libraries",
+          "description": "The entire AI/ML ecosystem is built on Python. Learning NumPy (numerical operations) and Pandas (data manipulation) is essential."
+        },
+        {
+          "step": "Step 2: Core Mathematics and Statistics",
+          "description": "This is the most challenging but most important step. Linear Algebra and Probability are essential to understand what's happening 'under the hood' of the models."
+        },
+        {
+          "step": "Step 3: Machine Learning Fundamentals",
+          "description": "Learn how to train basic models like Regression, Classification, and Clustering using the Scikit-learn library."
+        },
+        {
+          "step": "Step 4: Deep Learning (PyTorch/TensorFlow)",
+          "description": "Learn how to build and train artificial neural networks and deep learning architectures (CNN, RNN)."
+        }
+      ]
+    }
+  },
+  "cvAnalysis": {
+    "endpoint": "/api/cv-analysis",
+    "method": "POST",
+    "requestBody": {
+      "cvFile": "File (PDF)",
+      "linkedinUrl": "string (optional)",
+      "targetJobTitle": "string (optional)"
+    },
+    "responseExample": {
+      "analysis_results": {
+        "match_score": {
+          "value": 85,
+          "unit": "percent"
+        },
+        "target_role": "Senior Frontend Developer",
+        "strong_skills": [
+          "React",
+          "Next.js",
+          "TailwindCSS",
+          "TypeScript",
+          "JavaScript",
+          "HTML/CSS"
+        ],
+        "skills_to_develop": [
+          "GraphQL",
+          "AWS Deployment",
+          "Docker",
+          "Kubernetes"
+        ]
+      },
+      "suggested_learning_resources": [
+        {
+          "title": "GraphQL Full Course (freeCodeCamp)",
+          "category": "Course",
+          "tags": ["GraphQL"],
+          "link": "https://www.youtube.com/watch?v=ed8SzALpx1Q"
+        },
+        {
+          "title": "AWS Fundamentals (Official Documentation)",
+          "category": "Documentation",
+          "tags": ["AWS Deployment"],
+          "link": "https://aws.amazon.com/getting-started/"
+        },
+        {
+          "title": "Next.js on AWS Amplify",
+          "category": "Tutorial",
+          "tags": ["AWS Deployment"],
+          "link": "https://docs.amplify.aws/start/q/integration/nextjs/"
+        },
+        {
+          "title": "Docker for Beginners",
+          "category": "Course",
+          "tags": ["Docker"],
+          "link": "https://docker-curriculum.com/"
+        }
+      ],
+      "metadata": {
+        "platform_name": "CarerrAi",
+        "page_sections": [
+          "Analysis Results",
+          "Suggested Learning Resources"
+        ],
+        "language": "English"
+      }
+    }
+  },
+  "careerPaths": {
+    "endpoint": "/api/career-paths",
+    "method": "GET",
+    "responseExample": [
+      {
+        "id": "frontend-developer",
+        "title": "Frontend Developer",
+        "description": "Build user interfaces and web applications using modern frameworks and libraries",
+        "averageSalary": {
+          "min": 60000,
+          "max": 120000,
+          "currency": "USD"
+        },
+        "requiredSkills": [
+          "HTML/CSS",
+          "JavaScript",
+          "React or Vue or Angular",
+          "Responsive Design",
+          "Git"
+        ],
+        "optionalSkills": [
+          "TypeScript",
+          "Testing (Jest, Cypress)",
+          "Performance Optimization"
+        ],
+        "learningPath": [
+          "HTML/CSS fundamentals",
+          "JavaScript ES6+",
+          "React or other framework",
+          "State management",
+          "API integration"
+        ]
+      },
+      {
+        "id": "backend-developer",
+        "title": "Backend Developer",
+        "description": "Create server-side logic, APIs, and database management systems",
+        "averageSalary": {
+          "min": 70000,
+          "max": 140000,
+          "currency": "USD"
+        },
+        "requiredSkills": [
+          "Node.js or Python or Java",
+          "RESTful APIs",
+          "Databases (SQL/NoSQL)",
+          "Authentication",
+          "Git"
+        ],
+        "optionalSkills": [
+          "Microservices",
+          "Docker",
+          "Cloud Services (AWS, Azure)",
+          "GraphQL"
+        ],
+        "learningPath": [
+          "Programming language fundamentals",
+          "Database design",
+          "API development",
+          "Security best practices",
+          "Deployment and DevOps"
+        ]
+      },
+      {
+        "id": "ai-ml-engineer",
+        "title": "AI/ML Engineer",
+        "description": "Develop artificial intelligence and machine learning solutions",
+        "averageSalary": {
+          "min": 90000,
+          "max": 180000,
+          "currency": "USD"
+        },
+        "requiredSkills": [
+          "Python",
+          "NumPy",
+          "Pandas",
+          "Scikit-learn",
+          "TensorFlow/PyTorch",
+          "Linear Algebra",
+          "Statistics"
+        ],
+        "optionalSkills": [
+          "Deep Learning",
+          "NLP",
+          "Computer Vision",
+          "MLOps"
+        ],
+        "learningPath": [
+          "Python programming",
+          "Mathematics (Linear Algebra, Calculus)",
+          "Statistics and Probability",
+          "Machine Learning algorithms",
+          "Deep Learning frameworks"
+        ]
+      }
+    ]
+  },
+  "cvJobMatching": {
+    "endpoint": "/api/cv-job-matching",
+    "method": "POST",
+    "requestBody": {
+      "cvFile": "File (PDF)",
+      "linkedinUrl": "string (optional)",
+      "jobPreferences": {
+        "jobTitle": "string (optional)",
+        "location": "string (optional)",
+        "experienceLevel": "string (optional)"
+      }
+    },
+    "responseExample": {
+      "jobs": [
+        {
+          "id": 1,
+          "title": "Senior Frontend Developer",
+          "company": "TechCorp",
+          "location": "Remote",
+          "salary": "$120k - $160k",
+          "matchPercentage": 92,
+          "description": "We are looking for a Senior Frontend Developer to join our team.",
+          "matchingSkills": [
+            "React",
+            "Next.js",
+            "JavaScript",
+            "TypeScript",
+            "TailwindCSS"
+          ],
+          "missingSkills": [
+            "GraphQL",
+            "Testing (Jest)",
+            "CI/CD"
+          ],
+          "jobUrl": "https://example.com/job/123"
+        }
+      ],
+      "overallSummary": {
+        "message": "Based on your CV, you're a strong candidate for Frontend positions.",
+        "topSkillsInDemand": [
+          "React",
+          "TypeScript",
+          "Node.js",
+          "Docker",
+          "AWS"
+        ]
+      }
+    }
+  }
+}

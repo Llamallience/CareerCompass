@@ -1,0 +1,1 @@
+# FastAPI app initialization - routers are included in app/__init__.py

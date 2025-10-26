@@ -1,0 +1,137 @@
+# ----------------------------------------------------------------------
+# 1. YOL DÜZENLEMELERİ (Backend ve Frontend'i alt klasörlerde hedefleme)
+# ----------------------------------------------------------------------
+
+# BACKEND Python Çıktıları ve Ortamları
+/backend/__pycache__/
+/backend/*.py[codz]
+/backend/*$py.class
+/backend/*.so
+/backend/build/
+/backend/dist/
+/backend/develop-eggs/
+/backend/eggs/
+/backend/.eggs/
+/backend/lib/
+/backend/lib64/
+/backend/parts/
+/backend/sdist/
+/backend/var/
+/backend/wheels/
+/backend/*.egg-info/
+/backend/*.egg
+/backend/*.log
+/backend/db.sqlite3
+/backend/db.sqlite3-journal
+/backend/instance/
+/backend/docs/_build/
+/backend/.pybuilder/
+/backend/target/
+/backend/.ipynb_checkpoints
+/backend/profile_default/
+/backend/__pypackages__/
+/backend/celerybeat-schedule
+/backend/celerybeat.pid
+/backend/*.sage.py
+/backend/env/
+/backend/venv/
+/backend/ENV/
+/backend/.venv/
+/backend/env.bak/
+/backend/venv.bak/
+/backend/.mypy_cache/
+/backend/.pyre/
+/backend/.pytype/
+/backend/cython_debug/
+/backend/.ruff_cache/
+/backend/marimo/_static/
+/backend/marimo/_lsp/
+/backend/__marimo__/
+/backend/data/
+/backend/.pixi
+/backend/data/
+
+# FRONTEND Node/JS Çıktıları ve Bağımlılıkları
+/frontend/node_modules/
+/frontend/.pnp
+/frontend/.pnp.*
+/frontend/.yarn/
+/frontend/coverage/
+/frontend/.next/
+/frontend/out/
+/frontend/build/
+/frontend/.vercel
+/frontend/*.tsbuildinfo
+/frontend/next-env.d.ts
+
+# ----------------------------------------------------------------------
+# 2. PROJE GENELİ ve TEKİL DOSYALAR
+# ----------------------------------------------------------------------
+
+# IDE/Editör Ayarları (Bu klasörleri commit etmek istemezsiniz)
+.idea/
+.vscode/
+.spyderproject
+.spyproject
+.ropeproject
+.abstra/
+.cursorignore
+.cursorindexingignore
+
+# Çevre Değişkenleri ve Gizli Dosyalar
+.env
+.envrc
+.env*
+superlinked_app/.env
+.pypirc
+.pdm-python
+.pdm-build/
+
+# Geçici ve Log Dosyaları
+*.pem
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.cache
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+.dmypy.json
+dmypy.json
+
+# Çeşitli Python Proje Dosyaları
+.Python
+*.egg-info/
+.installed-cfg
+MANIFEST
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+htmlcov/
+.tox/
+.nox/
+*.mo
+*.pot
+local_settings.py
+.webassets-cache
+.scrapy
+.pybuilder/
+ipython_config.py
+/site
+
+# Kilit Dosyaları (Poetry, PDM, vb. kilit dosyalarını commit etmek genellikle önerilir, bu yüzden yoruma alındı.)
+#Pipfile.lock
+#uv.lock
+#poetry.lock
+#poetry.toml
+#pdm.lock
+#pdm.toml
+#pixi.lock

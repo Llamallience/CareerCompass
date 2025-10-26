@@ -1,0 +1,4 @@
+{
+  "note": "This file is deprecated. Please use /src/api/mockData.json instead",
+  "redirectTo": "/src/api/mockData.json"
+}

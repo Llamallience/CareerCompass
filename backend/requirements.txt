@@ -1,0 +1,13 @@
+kagglehub
+pandas
+fastapi
+uvicorn
+httpx
+pdfplumber
+ollama
+requests
+beautifulsoup4
+python-multipart
+groq
+lxml
+openai
