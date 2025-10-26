@@ -34,8 +34,8 @@ CareerCompass modern ve ölçeklenebilir bir mimariyle inşa edilmiştir:
 
 #### Backend Teknolojileri
 - **FastAPI** - Yüksek performanslı Python web framework'ü
-- **Superlinked** - Vektör arama ve semantik embedding motoru
-- **Qdrant** - Benzerlik araması için vektör veritabanı
+- **Superlinked** - Karmaşık veri ilişkileri için unified embedding'ler sağlayan gelişmiş multi-modal vektör framework'ü
+- **Qdrant** - Ölçeklenebilir benzerlik araması ve semantik erişim için optimize edilmiş yüksek performanslı vektör veritabanı
 - **Groq/OpenAI** - Akıllı analiz için LLM entegrasyonu
 - **Docker** - Container'lı dağıtım
 
@@ -48,7 +48,7 @@ CareerCompass modern ve ölçeklenebilir bir mimariyle inşa edilmiştir:
 - **Axios** - API iletişimi için HTTP istemcisi
 
 #### Yapay Zeka & Veri İşleme
-- **Superlinked Vektör Arama** - Semantik iş eşleştirme
+- **Superlinked Vektör Arama** - Doğal dil kullanarak semantik iş eşleştirme
 - **LLM Entegrasyonu** - CV analizi ve öneriler
 - **Web Scraping** - LinkedIn ve GitHub veri çıkarma
 - **Kaggle Veri Setleri** - İş ilanı veri toplama

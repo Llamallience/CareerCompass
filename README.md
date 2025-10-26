@@ -34,8 +34,8 @@ CareerCompass is built with a modern, scalable architecture:
 
 #### Backend Stack
 - **FastAPI** - High-performance Python web framework
-- **Superlinked** - Vector search and semantic embedding engine
-- **Qdrant** - Vector database for similarity search
+- **Superlinked** - Advanced multi-modal vector framework with unified embeddings for complex data relationships
+- **Qdrant** - High-performance vector database optimized for similarity search and semantic retrieval at scale
 - **Groq/OpenAI** - LLM integration for intelligent analysis
 - **Docker** - Containerized deployment
 
@@ -48,7 +48,7 @@ CareerCompass is built with a modern, scalable architecture:
 - **Axios** - HTTP client for API communication
 
 #### AI & Data Processing
-- **Superlinked Vector Search** - Semantic job matching
+- **Superlinked Vector Search** - Semantic job matching in natural language
 - **LLM Integration** - CV analysis and recommendations
 - **Web Scraping** - LinkedIn and GitHub data extraction
 - **Kaggle Datasets** - Job posting data aggregation
