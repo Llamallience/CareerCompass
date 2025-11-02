@@ -26,13 +26,7 @@ CareerCompass is an AI-powered career guidance platform that helps job seekers n
 📚 **Learning Recommendations** - Get personalized course and resource suggestions  
 🌐 **Multi-Source Integration** - Scrape and analyze jobs from LinkedIn and other platforms  
 
----
-| Name | Role |
-|------|------|
-| Gurur Aşer | AI/ML Engineer |
-| Furkan Arık | AI/ML Engineer |
-| Enver Buğrahan ALYÜZ | Backend Developer |
-| Ümit Bora Çatalbaş | Frontend Developer & UX/UI Designer |
+
 
 ### 🏗️ Technical Architecture
 
